@@ -8,7 +8,7 @@ class WeatherRepository {
   /// Get actual weather data from api
   Future<Weather> getActualWeatherDataFromApi() async {
     Weather weatherData;
-    // Send request to api to get actual weather data
+    // Send get request to get actual weather data
     http.Response response = await http.get(
       Uri.parse(
           'http://api.openweathermap.org/data/2.5/weather?q=Paris&units=metric&lang=fr&appid=$API_KEY'),

@@ -10,7 +10,7 @@ class Weather {
   final int temperatureFeelsLike;
   final int temperatureMin;
   final int temperatureMax;
-  final double humidity;
+  final int humidity;
   final DateTime sunrise;
   final DateTime sunset;
 
@@ -34,12 +34,12 @@ class Weather {
         longitude: json['coord']['lon'].toDouble(),
         cityName: json['name'],
         description: json['weather'][0]['description'],
-        icon: json['weather'][0]['icon'],
+        icon: json['weather'][0]['icon'].substring(0, 2),
         temperatureActual: json['main']['temp'].toDouble().truncate(),
         temperatureFeelsLike: json['main']['feels_like'].toDouble().truncate(),
         temperatureMin: json['main']['temp_min'].toDouble().truncate(),
         temperatureMax: json['main']['temp_max'].toDouble().truncate(),
-        humidity: json['main']['humidity'].toDouble(),
+        humidity: json['main']['humidity'].toDouble().truncate(),
         sunrise: DateTime.fromMillisecondsSinceEpoch(
             json['sys']['sunrise'] * 1000,
             isUtc: true),
