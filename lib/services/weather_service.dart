@@ -1,4 +1,5 @@
 import 'package:weather_app/models/weather_model.dart';
+import 'package:weather_app/models/week_weather_model.dart';
 import 'package:weather_app/repositories/weather_repository.dart';
 
 class WeatherService {
@@ -9,5 +10,12 @@ class WeatherService {
     // Get actual weather data from api
     Weather weatherData = await weatherRepository.getActualWeatherDataFromApi();
     return weatherData;
+  }
+
+  Future<WeekWeather> getWeekWeatherData() async {
+    // Get actual weather data from api
+    WeekWeather weekWeatherData =
+        await weatherRepository.getWeekWeatherDataFromApi();
+    return weekWeatherData;
   }
 }

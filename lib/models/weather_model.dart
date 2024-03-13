@@ -11,8 +11,9 @@ class Weather {
   final int temperatureMin;
   final int temperatureMax;
   final int humidity;
-  final DateTime sunrise;
-  final DateTime sunset;
+  final DateTime? sunrise;
+  final DateTime? sunset;
+  final DateTime weatherDate;
 
   Weather({
     required this.latitude,
@@ -27,11 +28,12 @@ class Weather {
     required this.humidity,
     required this.sunrise,
     required this.sunset,
+    required this.weatherDate,
   });
 
   factory Weather.fromJson(Map<String, dynamic> json) => Weather(
-        latitude: json['coord']['lat'].toDouble(),
-        longitude: json['coord']['lon'].toDouble(),
+        latitude: json['coord']?['lat']?.toDouble(),
+        longitude: json['coord']?['lon'].toDouble(),
         cityName: json['name'],
         description: json['weather'][0]['description'],
         icon: json['weather'][0]['icon'].substring(0, 2),
@@ -40,12 +42,16 @@ class Weather {
         temperatureMin: json['main']['temp_min'].toDouble().truncate(),
         temperatureMax: json['main']['temp_max'].toDouble().truncate(),
         humidity: json['main']['humidity'].toDouble().truncate(),
-        sunrise: DateTime.fromMillisecondsSinceEpoch(
-            json['sys']['sunrise'] * 1000,
-            isUtc: true),
-        sunset: DateTime.fromMillisecondsSinceEpoch(
-            json['sys']['sunset'] * 1000,
-            isUtc: true),
+        sunrise: json['sys']?['sunrise'] != null
+            ? DateTime.fromMillisecondsSinceEpoch(json['sys']['sunrise'] * 1000,
+                isUtc: true)
+            : null,
+        sunset: json['sys']?['sunset'] != null
+            ? DateTime.fromMillisecondsSinceEpoch(json['sys']['sunset'] * 1000,
+                isUtc: true)
+            : null,
+        weatherDate:
+            DateTime.fromMillisecondsSinceEpoch(json['dt'] * 1000, isUtc: true),
       );
 
   Map<String, dynamic> toJson() => {
@@ -54,6 +60,7 @@ class Weather {
           'lon': longitude,
         },
         'name': cityName,
+        'dt': weatherDate.millisecondsSinceEpoch ~/ 1000,
         'weather': [
           {
             'description': description,
@@ -68,8 +75,8 @@ class Weather {
           'humidity': humidity,
         },
         'sys': {
-          'sunrise': sunrise.millisecondsSinceEpoch ~/ 1000,
-          'sunset': sunset.millisecondsSinceEpoch ~/ 1000,
+          'sunrise': sunrise?.millisecondsSinceEpoch ?? 0 ~/ 1000,
+          'sunset': sunset?.millisecondsSinceEpoch ?? 0 ~/ 1000,
         },
       };
 }
