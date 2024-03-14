@@ -17,32 +17,6 @@ class WeekWeather {
     required this.weathers,
   });
 
-  // static List<DayWeather> getDayWeathersFromWeathersList(
-  //     List<Weather> weathers) {
-  //   if (weathers.isEmpty) {
-  //     return [];
-  //   }
-  //   for (Weather weather in weathers) {
-  //     List<DayWeather> dayWeathers = [];
-  //     DateTime currentDay = Date weathers.first.weatherDate;
-  //     List<Weather> currentDayWeathers = [];
-  //     // for (Weather weather in weathers) {
-  //     //   if (weather.weatherDate.day == currentDay.day) {
-  //     //     currentDayWeathers.add(weather);
-  //     //   } else {
-  //     //     dayWeathers
-  //     //         .add(DayWeather(day: currentDay, weathers: currentDayWeathers));
-  //     //     currentDay = weather.weatherDate;
-  //     //     currentDayWeathers = [weather];
-  //     //   }
-  //     // }
-  //     // dayWeathers
-  //     //     .add(DayWeather(day: currentDay, weathers: currentDayWeathers));
-  //     return dayWeathers;
-  //   }
-  //   return [];
-  // }
-
   factory WeekWeather.fromJson(Map<String, dynamic> json) {
     return WeekWeather(
       latitude: json['city']['coord']['lat'].toDouble(),

@@ -70,16 +70,23 @@ class PrincipalWeatherData extends StatelessWidget {
           ),
           Expanded(
             child: Container(
+              margin: const EdgeInsets.only(left: 10),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Ressenti ${weatherTemperatureFeelsLike.toString()}°',
+                    'Ressenti ${weatherTemperatureFeelsLike.toString()}°C',
                     style: const TextStyle(color: Colors.white),
                   ),
                   const SizedBox(height: 10),
                   Text(
-                    'Min ${weatherTemperatureMin.toString()}°, Max ${weatherTemperatureMax.toString()}°',
+                    'Min ${weatherTemperatureMin.toString()}°C',
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    'Max ${weatherTemperatureMax.toString()}°C',
                     style: const TextStyle(color: Colors.white),
                   ),
                 ],
