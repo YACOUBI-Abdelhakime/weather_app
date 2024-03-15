@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:weather_app/bloc/location/location_bloc.dart';
 import 'package:weather_app/bloc/weather/weather_bloc.dart';
 import 'package:weather_app/services/location_service.dart';
 import 'package:weather_app/services/weather_service.dart';
-import 'package:weather_app/views/weather/weather_screen.dart';
+import 'package:weather_app/views/add_city_screen/add_city_screen_home.dart';
+import 'package:weather_app/views/weather_screen/weather_screen_home.dart';
 
 void main() {
   runApp(
@@ -32,13 +34,30 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Weather App',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,
       ),
-      home: const WeatherScreen(),
+      routerConfig: GoRouter(
+        routes: <RouteBase>[
+          GoRoute(
+            path: '/',
+            builder: (BuildContext context, GoRouterState state) {
+              return const WeatherScreen();
+            },
+            routes: <RouteBase>[
+              GoRoute(
+                path: 'addCity',
+                builder: (BuildContext context, GoRouterState state) {
+                  return const AddCityScreen();
+                },
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

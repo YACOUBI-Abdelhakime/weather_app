@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:weather_app/views/weather/widgets/icon_value_widget.dart';
+import 'package:weather_app/views/weather_screen/widgets/icon_value_widget.dart';
 
 class AdditionalWeatherData extends StatelessWidget {
   final String sunrise;

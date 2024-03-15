@@ -17,6 +17,7 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
       : super(WeatherState()) {
     // Event responsible for getting the actual weather
     on<WeatherActualFetch>(applyWeatherActualFetchEvent);
+    // Event responsible for getting the week weather
     on<WeekWeatherFetch>(applyWeekWeatherFetchEvent);
   }
 
@@ -32,9 +33,10 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
     // set status to loading to start loading
     emit(state.copyWith(status: EventStatus.loading));
     // Call weather service to get weather data
-    Weather weatherResponse = await weatherService.getActualWeatherData(
-      latitude: locationBloc.state.latitude ?? 0,
-      longitude: locationBloc.state.longitude ?? 0,
+    Weather? weatherResponse = await weatherService.getActualWeatherData(
+      latitude: locationBloc.state.latitude,
+      longitude: locationBloc.state.longitude,
+      cityName: locationBloc.state.cityName,
     );
     // Notify all listener about weather data
     emit(state.copyWith(
@@ -51,12 +53,13 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
         locationBloc.state.longitude == null) {
       return;
     }
-    // set status to loading to start loading
+    // Set status to loading to start loading
     emit(state.copyWith(status: EventStatus.loading));
     // Call weather service to get week weather data
-    WeekWeather weekWeatherResponse = await weatherService.getWeekWeatherData(
-      latitude: locationBloc.state.latitude ?? 0,
-      longitude: locationBloc.state.longitude ?? 0,
+    WeekWeather? weekWeatherResponse = await weatherService.getWeekWeatherData(
+      latitude: locationBloc.state.latitude,
+      longitude: locationBloc.state.longitude,
+      cityName: locationBloc.state.cityName,
     );
     // Notify all listener about week weather data
     emit(state.copyWith(

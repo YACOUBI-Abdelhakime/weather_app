@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:weather_app/bloc/location/location_bloc.dart';
 import 'package:weather_app/bloc/weather/weather_bloc.dart';
 import 'package:weather_app/models/enums/event_status.dart';
 import 'package:weather_app/models/weather_model.dart';
-import 'package:weather_app/views/weather/components/additional_weather_data.dart';
-import 'package:weather_app/views/weather/components/hour_weather_data.dart';
-import 'package:weather_app/views/weather/components/principal_weather_data.dart';
+import 'package:weather_app/views/weather_screen/components/additional_weather_data.dart';
+import 'package:weather_app/views/weather_screen/components/hour_weather_data.dart';
+import 'package:weather_app/views/weather_screen/components/principal_weather_data.dart';
 
 class WeatherScreen extends StatefulWidget {
   const WeatherScreen({super.key});
@@ -15,6 +16,12 @@ class WeatherScreen extends StatefulWidget {
 }
 
 class _WeatherScreenState extends State<WeatherScreen> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<LocationBloc>().add(LocationGetCurrent());
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<WeatherBloc, WeatherState>(
@@ -60,7 +67,9 @@ class _WeatherScreenState extends State<WeatherScreen> {
             children: [
               ListTile(
                 title: Text('Ajouter une ville'),
-                onTap: () {},
+                onTap: () {
+                  context.go('/addCity');
+                },
               ),
               ListTile(
                 title: Text('Choisir une ville'),
