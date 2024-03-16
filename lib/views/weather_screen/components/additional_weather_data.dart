@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:weather_app/models/weather_model.dart';
 import 'package:weather_app/views/weather_screen/widgets/icon_value_widget.dart';
 
 class AdditionalWeatherData extends StatelessWidget {
-  final String sunrise;
-  final String sunset;
-  final int humidity;
+  final Weather? weather;
 
   const AdditionalWeatherData({
     super.key,
-    required this.sunrise,
-    required this.sunset,
-    required this.humidity,
+    required this.weather,
   });
   @override
   Widget build(BuildContext context) {
@@ -18,6 +15,9 @@ class AdditionalWeatherData extends StatelessWidget {
       width: double.infinity,
       margin: const EdgeInsets.all(20),
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+      constraints: const BoxConstraints(
+        minHeight: 90,
+      ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: Colors.blue,
@@ -30,23 +30,27 @@ class AdditionalWeatherData extends StatelessWidget {
           ),
         ],
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          IconValueWidget(
-            icon: Icons.light_mode_outlined,
-            value: sunrise,
-          ),
-          IconValueWidget(
-            icon: Icons.wb_twilight_outlined,
-            value: sunset,
-          ),
-          IconValueWidget(
-            icon: Icons.water_drop_outlined,
-            value: '${humidity.toString()}%',
-          ),
-        ],
-      ),
+      child: weather != null
+          ? Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                IconValueWidget(
+                  icon: Icons.light_mode_outlined,
+                  value:
+                      '${weather?.sunrise?.hour.toString().padLeft(2, '0')}:${weather?.sunrise?.minute.toString().padLeft(2, '0')}',
+                ),
+                IconValueWidget(
+                  icon: Icons.wb_twilight_outlined,
+                  value:
+                      '${weather?.sunset?.hour.toString().padLeft(2, '0')}:${weather?.sunset?.minute.toString().padLeft(2, '0')}',
+                ),
+                IconValueWidget(
+                  icon: Icons.water_drop_outlined,
+                  value: '${weather?.humidity.toString()}%',
+                ),
+              ],
+            )
+          : const SizedBox(),
     );
   }
 }

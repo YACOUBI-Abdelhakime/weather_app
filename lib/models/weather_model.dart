@@ -44,11 +44,11 @@ class Weather {
         humidity: json['main']['humidity'].toDouble().truncate(),
         sunrise: json['sys']?['sunrise'] != null
             ? DateTime.fromMillisecondsSinceEpoch(json['sys']['sunrise'] * 1000,
-                isUtc: true)
+                isUtc: false)
             : null,
         sunset: json['sys']?['sunset'] != null
             ? DateTime.fromMillisecondsSinceEpoch(json['sys']['sunset'] * 1000,
-                isUtc: true)
+                isUtc: false)
             : null,
         weatherDate:
             DateTime.fromMillisecondsSinceEpoch(json['dt'] * 1000, isUtc: true),

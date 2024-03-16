@@ -54,7 +54,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
           ),
           title: Center(
             child: Text(
-              weatherState.weatherModel?.cityName ?? 'City Name',
+              weatherState.weatherModel?.cityName ?? '',
               style: const TextStyle(color: Colors.white),
             ),
           ),
@@ -77,42 +77,32 @@ class _WeatherScreenState extends State<WeatherScreen> {
             blocContext.read<WeatherBloc>().add(WeatherActualFetch());
             blocContext.read<WeatherBloc>().add(WeekWeatherFetch());
           },
-          child: SingleChildScrollView(
-            child: Container(
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Colors.blue,
-                    Color.fromARGB(255, 124, 201, 249),
-                  ],
-                ),
+          child: Container(
+            // Rest of the height of the screen
+            height: MediaQuery.of(context).size.height -
+                AppBar().preferredSize.height -
+                MediaQuery.of(context).padding.top,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Colors.blue,
+                  Color.fromARGB(255, 124, 201, 249),
+                ],
               ),
+            ),
+            child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   // Actual weather block
                   PrincipalWeatherData(
-                    weatherIcon: weatherState.weatherModel?.icon ?? '01',
-                    weatherDescription:
-                        weatherState.weatherModel?.description ?? '',
-                    weatherTemperature:
-                        weatherState.weatherModel?.temperatureActual ?? 0,
-                    weatherTemperatureFeelsLike:
-                        weatherState.weatherModel?.temperatureFeelsLike ?? 0,
-                    weatherTemperatureMin:
-                        weatherState.weatherModel?.temperatureMin ?? 0,
-                    weatherTemperatureMax:
-                        weatherState.weatherModel?.temperatureMax ?? 0,
+                    weather: weatherState.weatherModel,
                   ),
                   // Additional weather data
                   AdditionalWeatherData(
-                    sunrise:
-                        '${weatherState.weatherModel?.sunrise?.hour.toString().padLeft(2, '0')}:${weatherState.weatherModel?.sunrise?.minute.toString().padLeft(2, '0')}',
-                    sunset:
-                        '${weatherState.weatherModel?.sunset?.hour.toString().padLeft(2, '0')}:${weatherState.weatherModel?.sunset?.minute.toString().padLeft(2, '0')}',
-                    humidity: weatherState.weatherModel?.humidity ?? 0,
+                    weather: weatherState.weatherModel,
                   ),
                   if (dayWeathers.isNotEmpty) ...{
                     Container(
@@ -138,11 +128,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                 const SizedBox(width: 10),
                                 for (Weather weather in dayWeathers) ...{
                                   HourWeatherData(
-                                    weatherTemperature:
-                                        weather.temperatureActual,
-                                    weatherHour:
-                                        '${weather.weatherDate.hour.toString().padLeft(2, '0')}:${weather.weatherDate.minute.toString().padLeft(2, '0')}',
-                                    weatherIcon: weather.icon,
+                                    weather: weather,
                                   ),
                                 },
                                 const SizedBox(width: 10),
@@ -179,10 +165,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                   ),
                                 },
                                 HourWeatherData(
-                                  weatherTemperature: weather.temperatureActual,
-                                  weatherHour:
-                                      '${weather.weatherDate.hour.toString().padLeft(2, '0')}:${weather.weatherDate.minute.toString().padLeft(2, '0')}',
-                                  weatherIcon: weather.icon,
+                                  weather: weather,
                                 ),
                               },
                             ],

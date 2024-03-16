@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:weather_app/models/weather_model.dart';
 
 class HourWeatherData extends StatelessWidget {
-  final String weatherHour;
-  final String weatherIcon;
-  final int weatherTemperature;
+  final Weather weather;
 
   const HourWeatherData({
     super.key,
-    required this.weatherIcon,
-    required this.weatherHour,
-    required this.weatherTemperature,
+    required this.weather,
   });
 
   @override
@@ -34,7 +31,7 @@ class HourWeatherData extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            '$weatherHour',
+            '${weather.weatherDate.hour.toString().padLeft(2, '0')}:${weather.weatherDate.minute.toString().padLeft(2, '0')}',
             style: const TextStyle(
               color: Colors.white,
               fontSize: 12,
@@ -42,12 +39,12 @@ class HourWeatherData extends StatelessWidget {
           ),
           Container(
             child: Lottie.asset(
-              'assets/weather_icons/$weatherIcon.json',
-              height: 25,
+              'assets/weather_icons/${weather.icon}.json',
+              height: 45,
             ),
           ),
           Text(
-            '$weatherTemperature°C',
+            '${weather.temperatureActual}°C',
             style: const TextStyle(
               color: Colors.white,
               fontSize: 20,

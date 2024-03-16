@@ -24,9 +24,9 @@ class WeekWeather {
       cityName: json['city']['name'],
       sunrise: DateTime.fromMillisecondsSinceEpoch(
           json['city']['sunrise'] * 1000,
-          isUtc: true),
+          isUtc: false),
       sunset: DateTime.fromMillisecondsSinceEpoch(json['city']['sunset'] * 1000,
-          isUtc: true),
+          isUtc: false),
       weathers: json['list']
           .map<Weather>((weather) => Weather.fromJson(weather))
           .toList(),

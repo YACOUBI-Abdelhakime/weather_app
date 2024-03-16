@@ -1,22 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:weather_app/models/weather_model.dart';
+import 'package:weather_app/shared/helpers.dart';
 
 class PrincipalWeatherData extends StatelessWidget {
-  final String weatherIcon;
-  final String weatherDescription;
-  final int weatherTemperature;
-  final int weatherTemperatureFeelsLike;
-  final int weatherTemperatureMin;
-  final int weatherTemperatureMax;
+  final Weather? weather;
 
   const PrincipalWeatherData({
     super.key,
-    required this.weatherIcon,
-    required this.weatherDescription,
-    required this.weatherTemperature,
-    required this.weatherTemperatureFeelsLike,
-    required this.weatherTemperatureMin,
-    required this.weatherTemperatureMax,
+    required this.weather,
   });
 
   @override
@@ -25,6 +17,9 @@ class PrincipalWeatherData extends StatelessWidget {
       width: double.infinity,
       margin: const EdgeInsets.all(20),
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 40),
+      constraints: const BoxConstraints(
+        minHeight: 170,
+      ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: Colors.blue,
@@ -37,64 +32,69 @@ class PrincipalWeatherData extends StatelessWidget {
           ),
         ],
       ),
-      child: Row(
-        children: [
-          Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: weather != null
+          ? Row(
               children: [
-                Container(
-                  child: Lottie.asset(
-                    'assets/weather_icons/$weatherIcon.json',
-                    height: 70,
+                // Weather icon and description
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        child: Lottie.asset(
+                          'assets/weather_icons/${weather?.icon ?? '01'}.json',
+                          height: 70,
+                        ),
+                      ),
+                      Text(
+                        Helpers().capitalize(weather?.description ?? ''),
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                    ],
                   ),
                 ),
-                Text(
-                  weatherDescription,
-                  style: const TextStyle(color: Colors.white),
+                // Weather temperature data
+                Expanded(
+                  child: Center(
+                    child: Text(
+                      '${weather?.temperatureActual.toString()} °C',
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 40,
+                      ),
+                    ),
+                  ),
+                ),
+                // Weather additional data
+                Expanded(
+                  child: Container(
+                    margin: const EdgeInsets.only(left: 10),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Ressenti ${weather?.temperatureFeelsLike.toString()}°C',
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          'Min ${weather?.temperatureMin.toString()}°C',
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          'Max ${weather?.temperatureMax.toString()}°C',
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ],
-            ),
-          ),
-          Expanded(
-            child: Center(
-              child: Text(
-                '${weatherTemperature.toString()} °C',
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 40,
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              margin: const EdgeInsets.only(left: 10),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Ressenti ${weatherTemperatureFeelsLike.toString()}°C',
-                    style: const TextStyle(color: Colors.white),
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    'Min ${weatherTemperatureMin.toString()}°C',
-                    style: const TextStyle(color: Colors.white),
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    'Max ${weatherTemperatureMax.toString()}°C',
-                    style: const TextStyle(color: Colors.white),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
+            )
+          : const SizedBox(),
     );
   }
 }
