@@ -24,12 +24,6 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
   /// Event responsible for getting the actual weather
   Future<void> applyWeatherActualFetchEvent(
       WeatherActualFetch event, Emitter<WeatherState> emit) async {
-    // Quit if location is not available
-    if (locationBloc.state.latitude == null ||
-        locationBloc.state.longitude == null) {
-      return;
-    }
-
     // set status to loading to start loading
     emit(state.copyWith(status: EventStatus.loading));
     // Call weather service to get weather data
@@ -48,11 +42,6 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
   /// Event responsible for getting the week weather
   Future<void> applyWeekWeatherFetchEvent(
       WeekWeatherFetch event, Emitter<WeatherState> emit) async {
-    // Quit if location is not available
-    if (locationBloc.state.latitude == null ||
-        locationBloc.state.longitude == null) {
-      return;
-    }
     // Set status to loading to start loading
     emit(state.copyWith(status: EventStatus.loading));
     // Call weather service to get week weather data

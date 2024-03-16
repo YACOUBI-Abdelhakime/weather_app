@@ -11,9 +11,39 @@ class LocationGetCurrent extends LocationEvent {
 }
 
 /// Check if city exists event
-class CheckCityIfExists extends LocationEvent {
+class LocationCheckCityIfExists extends LocationEvent {
   final String cityName;
-  CheckCityIfExists({required this.cityName});
+  LocationCheckCityIfExists({required this.cityName});
+
+  @override
+  List<Object?> get props => [
+        cityName,
+      ];
+}
+
+/// Update location event
+class LocationUpdate extends LocationEvent {
+  final double? latitude;
+  final double? longitude;
+  final String? cityName;
+  LocationUpdate({
+    this.latitude,
+    this.longitude,
+    this.cityName,
+  });
+
+  @override
+  List<Object?> get props => [
+        latitude,
+        longitude,
+        cityName,
+      ];
+}
+
+/// Check if city exists event
+class LocationSelectedCityNameDelete extends LocationEvent {
+  final String cityName;
+  LocationSelectedCityNameDelete({required this.cityName});
 
   @override
   List<Object?> get props => [

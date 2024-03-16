@@ -29,10 +29,10 @@ class LocationState extends Equatable {
   }) {
     return LocationState(
       status: status ?? this.status,
-      errorMassage: errorMassage ?? this.errorMassage,
-      latitude: latitude ?? this.latitude,
-      longitude: longitude ?? this.longitude,
-      cityName: cityName ?? this.cityName,
+      errorMassage: errorMassage,
+      latitude: latitude,
+      longitude: longitude,
+      cityName: cityName,
       selectedCities: selectedCities ?? this.selectedCities,
     );
   }

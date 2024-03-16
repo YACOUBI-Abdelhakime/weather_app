@@ -6,6 +6,7 @@ import 'package:weather_app/bloc/weather/weather_bloc.dart';
 import 'package:weather_app/services/location_service.dart';
 import 'package:weather_app/services/weather_service.dart';
 import 'package:weather_app/views/add_city_screen/add_city_screen_home.dart';
+import 'package:weather_app/views/cities_list_screen/cities_list_screen_home.dart';
 import 'package:weather_app/views/weather_screen/weather_screen_home.dart';
 
 void main() {
@@ -52,6 +53,12 @@ class MyApp extends StatelessWidget {
                 path: 'addCity',
                 builder: (BuildContext context, GoRouterState state) {
                   return const AddCityScreen();
+                },
+              ),
+              GoRoute(
+                path: 'citiesList',
+                builder: (BuildContext context, GoRouterState state) {
+                  return const CitiesListScreen();
                 },
               ),
             ],

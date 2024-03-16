@@ -44,7 +44,7 @@ class _AddCityScreenState extends State<AddCityScreen> {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    Color.fromARGB(255, 27, 148, 248),
+                    Colors.blue,
                     Color.fromARGB(255, 124, 201, 249),
                   ],
                 ),
@@ -96,7 +96,7 @@ class _AddCityScreenState extends State<AddCityScreen> {
                               if (_cityNameController.text.isNotEmpty) {
                                 // Add event to check if the city exists
                                 context.read<LocationBloc>().add(
-                                    CheckCityIfExists(
+                                    LocationCheckCityIfExists(
                                         cityName: _cityNameController.text));
                                 // Unfocus the text field when the user taps on the screen
                                 FocusScope.of(context).unfocus();

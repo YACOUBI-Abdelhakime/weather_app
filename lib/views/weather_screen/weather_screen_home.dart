@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:weather_app/bloc/location/location_bloc.dart';
 import 'package:weather_app/bloc/weather/weather_bloc.dart';
-import 'package:weather_app/models/enums/event_status.dart';
 import 'package:weather_app/models/weather_model.dart';
 import 'package:weather_app/views/weather_screen/components/additional_weather_data.dart';
 import 'package:weather_app/views/weather_screen/components/hour_weather_data.dart';
@@ -19,7 +18,17 @@ class _WeatherScreenState extends State<WeatherScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<LocationBloc>().add(LocationGetCurrent());
+    // Check if the location has been set => fetch the weather of this location
+    // if not, fetch the weather of current location
+    String? cityName = context.read<LocationBloc>().state.cityName;
+    double? latitude = context.read<LocationBloc>().state.latitude;
+    double? longitude = context.read<LocationBloc>().state.longitude;
+    if (cityName == null && (latitude == null || longitude == null)) {
+      context.read<LocationBloc>().add(LocationGetCurrent());
+    } else {
+      context.read<WeatherBloc>().add(WeatherActualFetch());
+      context.read<WeatherBloc>().add(WeekWeatherFetch());
+    }
   }
 
   @override
@@ -32,13 +41,15 @@ class _WeatherScreenState extends State<WeatherScreen> {
 
       return Scaffold(
         appBar: AppBar(
+          // Icon button to refresh the weather data
           leading: IconButton(
             icon: const Icon(
-              Icons.location_on_outlined,
+              Icons.refresh_outlined,
               color: Colors.white,
             ),
             onPressed: () {
-              blocContext.read<LocationBloc>().add(LocationGetCurrent());
+              context.read<WeatherBloc>().add(WeatherActualFetch());
+              context.read<WeatherBloc>().add(WeekWeatherFetch());
             },
           ),
           title: Center(
@@ -49,45 +60,19 @@ class _WeatherScreenState extends State<WeatherScreen> {
           ),
           backgroundColor: Colors.blue,
           actions: [
-            Builder(builder: (BuildContext context) {
-              return IconButton(
-                icon: const Icon(
-                  Icons.menu,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-                  Scaffold.of(context).openEndDrawer();
-                },
-              );
-            }),
+            IconButton(
+              padding: const EdgeInsets.only(right: 10),
+              icon: const Icon(
+                Icons.add_home_work_outlined,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                context.go('/citiesList');
+              },
+            )
           ],
         ),
-        endDrawer: Drawer(
-          child: ListView(
-            children: [
-              ListTile(
-                title: Text('Ajouter une ville'),
-                onTap: () {
-                  context.go('/addCity');
-                },
-              ),
-              ListTile(
-                title: Text('Choisir une ville'),
-                onTap: () {},
-              ),
-              ListTile(
-                title: Text('Météo actuelle'),
-                onTap: () {},
-              ),
-            ],
-          ),
-        ),
         body: BlocListener<LocationBloc, LocationState>(
-          listenWhen: (previous, current) =>
-              previous.status != current.status &&
-              current.status == EventStatus.loaded &&
-              current.latitude != null &&
-              current.longitude != null,
           listener: (BuildContext context, LocationState locationState) {
             blocContext.read<WeatherBloc>().add(WeatherActualFetch());
             blocContext.read<WeatherBloc>().add(WeekWeatherFetch());
@@ -99,7 +84,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    Color.fromARGB(255, 27, 148, 248),
+                    Colors.blue,
                     Color.fromARGB(255, 124, 201, 249),
                   ],
                 ),
@@ -178,7 +163,6 @@ class _WeatherScreenState extends State<WeatherScreen> {
                           Wrap(
                             alignment: WrapAlignment.spaceEvenly,
                             children: [
-                              const SizedBox(width: 10),
                               for (Weather weather
                                   in allWeathersExpectTodaysWeather) ...{
                                 if (weather.weatherDate.hour == 0) ...{
@@ -201,7 +185,6 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                   weatherIcon: weather.icon,
                                 ),
                               },
-                              const SizedBox(width: 10),
                             ],
                           ),
                         ],
