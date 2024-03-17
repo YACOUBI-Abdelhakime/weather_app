@@ -1,9 +1,9 @@
 // Weather model
 
 class Weather {
-  final double? latitude;
-  final double? longitude;
-  final String? cityName;
+  double? latitude;
+  double? longitude;
+  String? cityName;
   final String description;
   final String icon;
   final int temperatureActual;
@@ -11,8 +11,8 @@ class Weather {
   final int temperatureMin;
   final int temperatureMax;
   final int humidity;
-  final DateTime? sunrise;
-  final DateTime? sunset;
+  DateTime? sunrise;
+  DateTime? sunset;
   final DateTime weatherDate;
 
   Weather({
@@ -33,7 +33,7 @@ class Weather {
 
   factory Weather.fromJson(Map<String, dynamic> json) => Weather(
         latitude: json['coord']?['lat']?.toDouble(),
-        longitude: json['coord']?['lon'].toDouble(),
+        longitude: json['coord']?['lon']?.toDouble(),
         cityName: json['name'],
         description: json['weather'][0]['description'],
         icon: json['weather'][0]['icon'].substring(0, 2),
@@ -50,8 +50,8 @@ class Weather {
             ? DateTime.fromMillisecondsSinceEpoch(json['sys']['sunset'] * 1000,
                 isUtc: false)
             : null,
-        weatherDate:
-            DateTime.fromMillisecondsSinceEpoch(json['dt'] * 1000, isUtc: true),
+        weatherDate: DateTime.fromMillisecondsSinceEpoch(json['dt'] * 1000,
+            isUtc: false),
       );
 
   Map<String, dynamic> toJson() => {

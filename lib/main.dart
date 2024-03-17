@@ -24,7 +24,8 @@ void main() {
         BlocProvider<WeatherBloc>(
           create: (context) => WeatherBloc(
               locationBloc: context.read<LocationBloc>(),
-              weatherService: WeatherService()),
+              weatherService: WeatherService(),
+              localStorageService: LocalStorageService()),
         ),
       ],
       child: const MyApp(),

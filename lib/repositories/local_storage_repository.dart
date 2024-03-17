@@ -12,9 +12,10 @@ class LocalStorageRepository {
     await localStorage.ready;
     // Get old weekWeathersList from local storage
     List<WeekWeather> weekWeathersList = localStorage
-        .getItem('weekWeathersList')
-        ?.map<WeekWeather>((weather) => WeekWeather.fromJson(weather))
-        .toList();
+            .getItem('weekWeathersList')
+            ?.map<WeekWeather>((weather) => WeekWeather.fromJson(weather))
+            ?.toList() ??
+        [];
     // Add new weekWeather to weekWeathersList
     weekWeathersList.add(weekWeather);
     // Save new version of weekWeathersList to local storage

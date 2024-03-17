@@ -25,8 +25,6 @@ class WeatherState extends Equatable {
     for (Weather weather in weekWeatherModel?.weathers ?? []) {
       if (weather.weatherDate.day == DateTime.now().day) {
         dayWeathers.add(weather);
-      } else {
-        break;
       }
     }
 
@@ -40,7 +38,7 @@ class WeatherState extends Equatable {
       return [];
     }
     for (Weather weather in weekWeatherModel?.weathers ?? []) {
-      if (weather.weatherDate.day != DateTime.now().day) {
+      if (weather.weatherDate.day > DateTime.now().day) {
         dayWeathers.add(weather);
       }
     }

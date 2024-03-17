@@ -6,7 +6,7 @@ class LocalStorageService {
       LocalStorageRepository();
 
   /// Add week weather data
-  Future<void> addWeekWeather({required WeekWeather weekWeather}) async {
+  Future<void> saveWeekWeather({required WeekWeather weekWeather}) async {
     // Add week weather data to local storage
     await localStorageRepository.addWeekWeatherToLocalStorage(
         weekWeather: weekWeather);
