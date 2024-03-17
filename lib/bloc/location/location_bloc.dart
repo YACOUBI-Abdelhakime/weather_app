@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather_app/models/enums/event_status.dart';
+import 'package:weather_app/services/local_storage_service.dart';
 import 'package:weather_app/services/location_service.dart';
 import 'package:weather_app/shared/helpers.dart';
 
@@ -9,9 +10,15 @@ part 'location_state.dart';
 
 class LocationBloc extends Bloc<LocationEvent, LocationState> {
   final LocationService locationService;
-  LocationBloc({required this.locationService}) : super(const LocationState()) {
+  final LocalStorageService locationLocalStorageService;
+  LocationBloc({
+    required this.locationService,
+    required this.locationLocalStorageService,
+  }) : super(const LocationState()) {
     // Event responsible for getting the current location
     on<LocationGetCurrent>(applyLocationGetCurrentEvent);
+    // Event responsible for getting the current location
+    on<LocationGetSelectedCities>(applyLocationGetSelectedCitiesEvent);
     // Event responsible for checking if city exists
     on<LocationCheckCityIfExists>(applyLocationCheckCityIfExistsEvent);
     // Event responsible for updating the location
@@ -37,6 +44,21 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
     ));
   }
 
+  /// Event responsible for getting the selected cities
+  Future<void> applyLocationGetSelectedCitiesEvent(
+      LocationGetSelectedCities event, Emitter<LocationState> emit) async {
+    // set status to loading to start loading
+    emit(state.copyWith(status: EventStatus.loading));
+    // Get selected cities from service
+    Set<String> selectedCities =
+        locationLocalStorageService.getSelectedCities();
+    // Notify all listener about location data
+    emit(state.copyWith(
+      status: EventStatus.loaded,
+      selectedCities: selectedCities,
+    ));
+  }
+
   /// Event responsible for getting the week weather
   Future<void> applyLocationCheckCityIfExistsEvent(
       LocationCheckCityIfExists event, Emitter<LocationState> emit) async {
@@ -47,10 +69,16 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
       cityName: event.cityName,
     );
     if (isCityExists) {
+      // Capitalize city name
+      String cityName = Helpers().capitalize(event.cityName);
+      // Add selected city to local storage
+      locationLocalStorageService.addToSelectedCities(
+        cityName: cityName,
+      );
       // Get old selected cities
       Set<String> newSelectedCities = state.selectedCities ?? Set();
       // Add new city to the list
-      newSelectedCities.add(Helpers().capitalize(event.cityName));
+      newSelectedCities.add(cityName);
       // Sort the list alphabetically
       List<String> newSelectedCitiesList = newSelectedCities.toList()..sort();
       newSelectedCities = newSelectedCitiesList.toSet();
@@ -94,6 +122,10 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
     Set<String> selectedCities = state.selectedCities ?? Set();
     // Remove city from the list
     selectedCities.remove(event.cityName);
+    // Remove city from local storage
+    locationLocalStorageService.removeSelectedCityName(
+      cityName: event.cityName,
+    );
     // Notify all listener
     emit(state.copyWith(
       status: EventStatus.loaded,

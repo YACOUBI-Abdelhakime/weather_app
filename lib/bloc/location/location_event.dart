@@ -10,6 +10,14 @@ class LocationGetCurrent extends LocationEvent {
   List<Object?> get props => [];
 }
 
+/// Get selected cities event
+class LocationGetSelectedCities extends LocationEvent {
+  LocationGetSelectedCities();
+
+  @override
+  List<Object?> get props => [];
+}
+
 /// Check if city exists event
 class LocationCheckCityIfExists extends LocationEvent {
   final String cityName;

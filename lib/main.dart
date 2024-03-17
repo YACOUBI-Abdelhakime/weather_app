@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:weather_app/bloc/location/location_bloc.dart';
 import 'package:weather_app/bloc/weather/weather_bloc.dart';
+import 'package:weather_app/services/local_storage_service.dart';
 import 'package:weather_app/services/location_service.dart';
 import 'package:weather_app/services/weather_service.dart';
 import 'package:weather_app/views/add_city_screen/add_city_screen_home.dart';
@@ -15,7 +16,9 @@ void main() {
       providers: [
         // Location Bloc Provider
         BlocProvider<LocationBloc>(
-          create: (context) => LocationBloc(locationService: LocationService()),
+          create: (context) => LocationBloc(
+              locationService: LocationService(),
+              locationLocalStorageService: LocalStorageService()),
         ),
         // Weather Bloc Provider
         BlocProvider<WeatherBloc>(

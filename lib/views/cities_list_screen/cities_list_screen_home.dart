@@ -12,6 +12,15 @@ class CitiesListScreen extends StatefulWidget {
 
 class _CitiesListScreenState extends State<CitiesListScreen> {
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Get selected cities if not already loaded
+    if (context.read<LocationBloc>().state.selectedCities == null) {
+      context.read<LocationBloc>().add(LocationGetSelectedCities());
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocBuilder<LocationBloc, LocationState>(
