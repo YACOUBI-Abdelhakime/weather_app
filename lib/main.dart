@@ -18,7 +18,7 @@ void main() {
         BlocProvider<LocationBloc>(
           create: (context) => LocationBloc(
               locationService: LocationService(),
-              locationLocalStorageService: LocalStorageService()),
+              localStorageService: LocalStorageService()),
         ),
         // Weather Bloc Provider
         BlocProvider<WeatherBloc>(

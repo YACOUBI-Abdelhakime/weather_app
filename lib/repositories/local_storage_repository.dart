@@ -23,8 +23,10 @@ class LocalStorageRepository {
   }
 
   /// Add week weather data to local storage
-  WeekWeather? getWeekWeatherOfCityNameFromLocalStorage(
-      {required String cityName}) {
+  Future<WeekWeather?> getWeekWeatherOfCityNameFromLocalStorage(
+      {required String cityName}) async {
+    // Wait for local storage to be ready
+    await localStorage.ready;
     WeekWeather? weekWeather;
     // Get old weekWeathersList from local storage
     List<WeekWeather> weekWeathersList = localStorage
@@ -79,7 +81,9 @@ class LocalStorageRepository {
   }
 
   /// Get selected cities from local storage
-  Set<String> getSelectedCitiesFromLocalStorage() {
+  Future<Set<String>> getSelectedCitiesFromLocalStorage() async {
+    // Wait for local storage to be ready
+    await localStorage.ready;
     // Get selected cities from local storage
     Set<String>? selectedCitiesList =
         // localStorage.getItem('selectedCitiesList')?.toSet();
@@ -95,11 +99,13 @@ class LocalStorageRepository {
     // Wait for local storage to be ready
     await localStorage.ready;
     // Set selected city to local storage
-    localStorage.setItem('selectedCity', cityName);
+    await localStorage.setItem('selectedCity', cityName);
   }
 
   /// Get selected city from local storage
-  String? getSelectedCityFromLocalStorage() {
+  Future<String?> getSelectedCityFromLocalStorage() async {
+    // Wait for local storage to be ready
+    await localStorage.ready;
     // Get selected city from local storage
     String? selectedCity = localStorage.getItem('selectedCity');
     return selectedCity;

@@ -24,7 +24,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
     double? latitude = context.read<LocationBloc>().state.latitude;
     double? longitude = context.read<LocationBloc>().state.longitude;
     if (cityName == null && (latitude == null || longitude == null)) {
-      context.read<LocationBloc>().add(LocationGetCurrent());
+      context.read<LocationBloc>().add(LocationGetSelectedCityName());
     } else {
       context.read<WeatherBloc>().add(WeatherActualFetch());
       context.read<WeatherBloc>().add(WeekWeatherFetch());

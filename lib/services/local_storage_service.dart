@@ -13,9 +13,11 @@ class LocalStorageService {
   }
 
   /// Get week weather data of city name
-  WeekWeather? getWeekWeatherOfCityName({required String cityName}) {
+  Future<WeekWeather?> getWeekWeatherOfCityName(
+      {required String cityName}) async {
     // Get week weather data of city name from local storage
-    return localStorageRepository.getWeekWeatherOfCityNameFromLocalStorage(
+    return await localStorageRepository
+        .getWeekWeatherOfCityNameFromLocalStorage(
       cityName: cityName,
     );
   }
@@ -37,9 +39,9 @@ class LocalStorageService {
   }
 
   /// Get selected cities list
-  Set<String> getSelectedCities() {
+  Future<Set<String>> getSelectedCities() async {
     // Get selected cities list from local storage
-    return localStorageRepository.getSelectedCitiesFromLocalStorage();
+    return await localStorageRepository.getSelectedCitiesFromLocalStorage();
   }
 
   /// Set selected city
@@ -51,8 +53,8 @@ class LocalStorageService {
   }
 
   /// Get selected city
-  String? getSelectedCity() {
+  Future<String?> getSelectedCity() async {
     // Get selected city from local storage
-    return localStorageRepository.getSelectedCityFromLocalStorage();
+    return await localStorageRepository.getSelectedCityFromLocalStorage();
   }
 }
