@@ -19,10 +19,10 @@ class LocationRepository {
         'Accept': 'application/json',
       },
     );
-    // Convert response to WeekWeather object
-    weekWeatherData = WeekWeather.fromJson(json.decode(response.body));
     // Check status code if 200 then city name exists
     if (response.statusCode == 200) {
+      // Convert response to WeekWeather object
+      weekWeatherData = WeekWeather.fromJson(json.decode(response.body));
       return (isCityExists: true, weekWeather: weekWeatherData);
     } else {
       return (isCityExists: false, weekWeather: null);

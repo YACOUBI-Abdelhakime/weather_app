@@ -12,6 +12,26 @@ class AddCityScreen extends StatefulWidget {
 
 class _AddCityScreenState extends State<AddCityScreen> {
   TextEditingController _cityNameController = TextEditingController();
+
+  // Add city method
+  void addCity(String text) {
+    if (_cityNameController.text.isNotEmpty) {
+      // Add event to check if the city exists
+      context
+          .read<LocationBloc>()
+          .add(LocationCheckCityIfExists(cityName: _cityNameController.text));
+      // Unfocus the text field when the user taps on the screen
+      FocusScope.of(context).unfocus();
+    } else {
+      // Show a snackbar to inform the user that the city name is empty
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Entrez un nom de ville'),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,6 +92,7 @@ class _AddCityScreenState extends State<AddCityScreen> {
                           Expanded(
                             child: TextField(
                               controller: _cityNameController,
+                              autofocus: true,
                               style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
@@ -83,6 +104,9 @@ class _AddCityScreenState extends State<AddCityScreen> {
                                     color: Color.fromARGB(219, 255, 255, 255)),
                                 border: InputBorder.none,
                               ),
+                              onSubmitted: (value) {
+                                addCity(_cityNameController.text);
+                              },
                             ),
                           ),
                           // Button to add the city
@@ -93,21 +117,7 @@ class _AddCityScreenState extends State<AddCityScreen> {
                               size: 30,
                             ),
                             onPressed: () {
-                              if (_cityNameController.text.isNotEmpty) {
-                                // Add event to check if the city exists
-                                context.read<LocationBloc>().add(
-                                    LocationCheckCityIfExists(
-                                        cityName: _cityNameController.text));
-                                // Unfocus the text field when the user taps on the screen
-                                FocusScope.of(context).unfocus();
-                              } else {
-                                // Show a snackbar to inform the user that the city name is empty
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('Entrez un nom de ville'),
-                                  ),
-                                );
-                              }
+                              addCity(_cityNameController.text);
                             },
                           ),
                         ],

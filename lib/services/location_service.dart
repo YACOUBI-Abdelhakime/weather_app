@@ -30,7 +30,7 @@ class LocationService {
     (isCityExists: isCityExists, weekWeather: weekWeather) =
         await locationRepository.checkCityNameIfExists(cityName: cityName);
     if (isCityExists) {
-      // Add selected city to local storage
+      // Add city to selected cities in local storage
       localStorageService.addToSelectedCities(
         cityName: Helpers().capitalize(cityName),
       );
