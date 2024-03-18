@@ -31,9 +31,10 @@ class LocalStorageRepository {
     WeekWeather? weekWeather;
     // Get old weekWeathersList from local storage
     List<WeekWeather> weekWeathersList = localStorage
-        .getItem('weekWeathersList')
-        ?.map<WeekWeather>((weather) => WeekWeather.fromJson(weather))
-        .toList();
+            .getItem('weekWeathersList')
+            ?.map<WeekWeather>((weather) => WeekWeather.fromJson(weather))
+            .toList() ??
+        [];
 
     // Get weekWeather of cityName from weekWeathersList
     try {
@@ -53,10 +54,11 @@ class LocalStorageRepository {
     // Wait for local storage to be ready
     await localStorage.ready;
     // Get old selected cities from local storage
-    Set<String> selectedCitiesList = localStorage
-        .getItem('selectedCitiesList')
-        ?.map<String>((item) => item as String)
-        ?.toSet();
+    Set<String> selectedCitiesList = (localStorage
+            .getItem('selectedCitiesList')
+            ?.map<String>((item) => item as String)
+            ?.toSet() ??
+        Set());
     // Add new cityName to selected cities list
     selectedCitiesList.add(cityName);
     // Sort the list alphabetically
@@ -72,9 +74,10 @@ class LocalStorageRepository {
     await localStorage.ready;
     // Get selected cities from local storage
     Set<String> selectedCitiesList = localStorage
-        .getItem('selectedCitiesList')
-        ?.map<String>((item) => item as String)
-        ?.toSet();
+            .getItem('selectedCitiesList')
+            ?.map<String>((item) => item as String)
+            ?.toSet() ??
+        Set();
     // Remove cityName from selected cities list
     selectedCitiesList.remove(cityName);
     // Save new version of selected cities list to local storage
@@ -86,12 +89,10 @@ class LocalStorageRepository {
     // Wait for local storage to be ready
     await localStorage.ready;
     // Get selected cities from local storage
-    Set<String>? selectedCitiesList =
-        // localStorage.getItem('selectedCitiesList')?.toSet();
-        localStorage
-            .getItem('selectedCitiesList')
-            ?.map<String>((item) => item as String)
-            ?.toSet();
+    Set<String>? selectedCitiesList = localStorage
+        .getItem('selectedCitiesList')
+        ?.map<String>((item) => item as String)
+        ?.toSet();
     return selectedCitiesList ?? Set();
   }
 
