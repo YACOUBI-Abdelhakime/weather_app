@@ -44,12 +44,12 @@ class _WeatherScreenState extends State<WeatherScreen> {
           // Icon button to refresh the weather data
           leading: IconButton(
             icon: const Icon(
-              Icons.refresh_outlined,
+              Icons.location_on_outlined,
               color: Colors.white,
             ),
             onPressed: () {
-              context.read<WeatherBloc>().add(WeatherActualFetch());
-              context.read<WeatherBloc>().add(WeekWeatherFetch());
+              // Get the current location
+              context.read<LocationBloc>().add(LocationGetCurrent());
             },
           ),
           title: Center(

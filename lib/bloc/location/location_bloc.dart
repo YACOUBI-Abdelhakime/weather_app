@@ -17,9 +17,9 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
   }) : super(const LocationState()) {
     // Event responsible for getting the current location
     on<LocationGetCurrent>(applyLocationGetCurrentEvent);
-    // Event responsible for getting the current location
+    // Event responsible for getting the selected city name
     on<LocationGetSelectedCityName>(applyLocationGetSelectedCityNameEvent);
-    // Event responsible for getting the current location
+    // Event responsible for getting the selected cities
     on<LocationGetSelectedCities>(applyLocationGetSelectedCitiesEvent);
     // Event responsible for checking if city exists
     on<LocationCheckCityIfExists>(applyLocationCheckCityIfExistsEvent);
@@ -90,10 +90,6 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
     if (isCityExists) {
       // Capitalize city name
       String cityName = Helpers().capitalize(event.cityName);
-      // Add selected city to local storage
-      localStorageService.addToSelectedCities(
-        cityName: cityName,
-      );
       // Get old selected cities
       Set<String> newSelectedCities = state.selectedCities ?? Set();
       // Add new city to the list
