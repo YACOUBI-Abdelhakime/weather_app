@@ -6,12 +6,15 @@ import 'package:weather_app/models/weather_model.dart';
 import 'package:weather_app/models/week_weather_model.dart';
 
 class WeatherRepository {
+  final http.Client client;
+  WeatherRepository({required this.client});
+
   /// Get actual weather data using coordinates from api
   Future<Weather> getActualWeatherByCoordinatesDataFromApi(
       {required double latitude, required double longitude}) async {
     Weather weatherData;
     // Send get request to get actual weather data
-    http.Response response = await http.get(
+    http.Response response = await client.get(
       Uri.parse(
         'https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&units=metric&lang=fr&appid=$API_KEY',
       ),
@@ -30,7 +33,7 @@ class WeatherRepository {
       {required String cityName}) async {
     Weather weatherData;
     // Send get request to get actual weather data
-    http.Response response = await http.get(
+    http.Response response = await client.get(
       Uri.parse(
         'https://api.openweathermap.org/data/2.5/weather?q=$cityName&units=metric&lang=fr&appid=$API_KEY',
       ),
@@ -49,7 +52,7 @@ class WeatherRepository {
       {required double latitude, required double longitude}) async {
     WeekWeather weekWeatherData;
     // Send get request to get week weather data
-    http.Response response = await http.get(
+    http.Response response = await client.get(
       Uri.parse(
         'https://api.openweathermap.org/data/2.5/forecast?lat=$latitude&lon=$longitude&units=metric&lang=fr&appid=$API_KEY',
       ),
@@ -68,7 +71,7 @@ class WeatherRepository {
       {required String cityName}) async {
     WeekWeather weekWeatherData;
     // Send get request to get week weather data
-    http.Response response = await http.get(
+    http.Response response = await client.get(
       Uri.parse(
         'https://api.openweathermap.org/data/2.5/forecast?q=$cityName&units=metric&lang=fr&appid=$API_KEY',
       ),

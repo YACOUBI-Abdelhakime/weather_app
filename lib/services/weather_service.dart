@@ -5,8 +5,13 @@ import 'package:weather_app/repositories/weather_repository.dart';
 import 'package:weather_app/services/local_storage_service.dart';
 
 class WeatherService {
-  final WeatherRepository weatherRepository = WeatherRepository();
-  final LocalStorageService localStorageService = LocalStorageService();
+  final WeatherRepository weatherRepository;
+  final LocalStorageService localStorageService;
+
+  WeatherService({
+    required this.weatherRepository,
+    required this.localStorageService,
+  });
 
   /// Get actual weather data service
   Future<Weather?> getActualWeatherData({

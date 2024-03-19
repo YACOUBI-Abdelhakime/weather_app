@@ -3,7 +3,8 @@ import 'package:weather_app/models/week_weather_model.dart';
 
 class LocalStorageRepository {
   /// Local storage instance
-  final LocalStorage localStorage = LocalStorage("Weather_app_local_storage");
+  final LocalStorage localStorage;
+  LocalStorageRepository({required this.localStorage});
 
   /// Add week weather data to local storage
   Future<void> addWeekWeatherToLocalStorage(

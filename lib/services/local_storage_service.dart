@@ -2,8 +2,11 @@ import 'package:weather_app/models/week_weather_model.dart';
 import 'package:weather_app/repositories/local_storage_repository.dart';
 
 class LocalStorageService {
-  final LocalStorageRepository localStorageRepository =
-      LocalStorageRepository();
+  final LocalStorageRepository localStorageRepository;
+
+  LocalStorageService({
+    required this.localStorageRepository,
+  });
 
   /// Add week weather data
   Future<void> saveWeekWeather({required WeekWeather weekWeather}) async {

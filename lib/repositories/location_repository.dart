@@ -5,6 +5,9 @@ import 'package:weather_app/api_key.dart';
 import 'package:weather_app/models/week_weather_model.dart';
 
 class LocationRepository {
+  final http.Client client;
+  LocationRepository({required this.client});
+
   /// Check if city name exists
   Future<({bool isCityExists, WeekWeather? weekWeather})> checkCityNameIfExists(
       {required String cityName}) async {

@@ -5,8 +5,13 @@ import 'package:weather_app/services/local_storage_service.dart';
 import 'package:weather_app/shared/helpers.dart';
 
 class LocationService {
-  final LocationRepository locationRepository = LocationRepository();
-  final LocalStorageService localStorageService = LocalStorageService();
+  final LocationRepository locationRepository;
+  final LocalStorageService localStorageService;
+
+  LocationService({
+    required this.locationRepository,
+    required this.localStorageService,
+  });
 
   /// Get actual weather data
   Future<(double, double)> getCurrentLocation() async {

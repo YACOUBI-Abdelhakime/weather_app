@@ -4,7 +4,6 @@ import 'package:weather_app/bloc/location/location_bloc.dart';
 import 'package:weather_app/models/enums/event_status.dart';
 import 'package:weather_app/models/weather_model.dart';
 import 'package:weather_app/models/week_weather_model.dart';
-import 'package:weather_app/services/local_storage_service.dart';
 import 'package:weather_app/services/weather_service.dart';
 
 part 'weather_event.dart';
@@ -13,12 +12,10 @@ part 'weather_state.dart';
 class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
   final LocationBloc locationBloc;
   final WeatherService weatherService;
-  final LocalStorageService localStorageService;
 
   WeatherBloc({
     required this.locationBloc,
     required this.weatherService,
-    required this.localStorageService,
   }) : super(WeatherState()) {
     // Event responsible for getting the actual weather
     on<WeatherActualFetch>(applyWeatherActualFetchEvent);
@@ -55,7 +52,6 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
       longitude: locationBloc.state.longitude,
       cityName: locationBloc.state.cityName,
     );
-    // TODO: If weekWeatherResponse is null, Show error message
     // Notify all listener about week weather data
     emit(state.copyWith(
       status: EventStatus.loaded,
