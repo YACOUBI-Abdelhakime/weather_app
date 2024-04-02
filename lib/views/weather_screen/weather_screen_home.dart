@@ -151,7 +151,8 @@ class _WeatherScreenState extends State<WeatherScreen> {
                             children: [
                               for (Weather weather
                                   in allWeathersExpectTodaysWeather) ...{
-                                if (weather.weatherDate.hour == 1) ...{
+                                if ([0, 1, 2]
+                                    .contains(weather.weatherDate.hour)) ...{
                                   Container(
                                     margin: const EdgeInsets.all(20),
                                     width: MediaQuery.of(context).size.width,
