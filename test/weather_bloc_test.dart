@@ -8,9 +8,6 @@ import 'package:weather_app/models/weather_model.dart';
 import 'package:weather_app/models/week_weather_model.dart';
 import 'package:weather_app/services/weather_service.dart';
 
-class MockCounterBloc extends MockBloc<WeatherEvent, WeatherState>
-    implements WeatherBloc {}
-
 class MockLocationBloc extends MockBloc<LocationEvent, LocationState>
     implements LocationBloc {}
 
